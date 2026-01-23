@@ -15,8 +15,8 @@ public class OrderItemEntity {
 
     @EmbeddedId
     @AttributeOverrides({
-            @AttributeOverride(name = "idOrder", column = @Column(name = "id_order")),
-            @AttributeOverride(name = "idItem", column = @Column(name = "id_item"))
+        @AttributeOverride(name = "idOrder", column = @Column(name = "id_order")),
+        @AttributeOverride(name = "idItem", column = @Column(name = "id_item"))
     })
     private OrderItemId id;
 

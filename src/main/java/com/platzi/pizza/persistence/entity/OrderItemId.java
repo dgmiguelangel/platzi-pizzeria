@@ -15,6 +15,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @Embeddable
 public class OrderItemId implements Serializable {
+
     private Integer idOrder;
     private Integer idItem;
 

@@ -1,26 +1,16 @@
 package com.platzi.pizza.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Table(name = "order_item")
-//@IdClass(OrderItemId.class)
+@IdClass(OrderItemId.class)
 @Getter
 @Setter
 @NoArgsConstructor
 public class OrderItemEntity {
-
-    @EmbeddedId
-    @AttributeOverrides({
-        @AttributeOverride(name = "idOrder", column = @Column(name = "id_order")),
-        @AttributeOverride(name = "idItem", column = @Column(name = "id_item"))
-    })
-    private OrderItemId id;
-
-    /*
     @Id
     @Column(name = "id_order", nullable = false)
     private Integer idOrder;
@@ -28,7 +18,6 @@ public class OrderItemEntity {
     @Id
     @Column(name = "id_item", nullable = false)
     private Integer idItem;
-    */
 
     @Column(name = "id_pizza", nullable = false)
     private Integer idPizza;
@@ -41,6 +30,7 @@ public class OrderItemEntity {
 
     @ManyToOne
     @JoinColumn(name = "id_order", referencedColumnName = "id_order", insertable = false, updatable = false)
+    @JsonIgnore
     private OrderEntity order;
 
     @OneToOne

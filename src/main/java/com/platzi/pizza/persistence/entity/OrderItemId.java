@@ -1,6 +1,5 @@
 package com.platzi.pizza.persistence.entity;
 
-import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +12,6 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Embeddable
 public class OrderItemId implements Serializable {
 
     private Integer idOrder;

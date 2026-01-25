@@ -19,6 +19,16 @@ public class OrderController {
         this.orderService = orderService;
     }
 
+    @GetMapping("/today")
+    public ResponseEntity<List<OrderEntity>> getTodayOrders() {
+        return ResponseEntity.ok(this.orderService.getTodayOrders());
+    }
+
+    @GetMapping("/outside")
+    public ResponseEntity<List<OrderEntity>> getOutsideOrders() {
+        return ResponseEntity.ok(this.orderService.getOutsideOrders());
+    }
+
     @GetMapping
     public ResponseEntity<List<OrderEntity>> getAll() {
         List<OrderEntity> orders = this.orderService.getAll();

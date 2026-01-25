@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/pizzas")
@@ -19,6 +20,37 @@ public class PizzaController {
     @Autowired
     public PizzaController(PizzaService pizzaService) {
         this.pizzaService = pizzaService;
+    }
+
+    @GetMapping("/cheapest/{price}")
+    public List<PizzaEntity> getCheapestPizzas(@PathVariable Double price) {
+        return this.pizzaService.getCheapestPizzas(price);
+    }
+
+    @GetMapping("/name/{name}")
+    public ResponseEntity<PizzaEntity> getByName(@PathVariable String name) {
+        return ResponseEntity.ok(this.pizzaService.getByName(name));
+    }
+
+    @GetMapping("/available")
+    public ResponseEntity<List<PizzaEntity>> getAvailable() {
+        return ResponseEntity.ok(this.pizzaService.getAvailable());
+    }
+
+    @GetMapping("/count")
+    public ResponseEntity<Void> getCountVeganPizzas() {
+        this.pizzaService.countVeganPizzas();
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/with/{ingredient}")
+    public ResponseEntity<List<PizzaEntity>> getWith(@PathVariable String ingredient) {
+        return ResponseEntity.ok(this.pizzaService.getWith(ingredient));
+    }
+
+    @GetMapping("/without/{ingredient}")
+    public ResponseEntity<List<PizzaEntity>> getWithout(@PathVariable String ingredient) {
+        return ResponseEntity.ok(this.pizzaService.getWithout(ingredient));
     }
 
     @GetMapping("/{idPizza}")

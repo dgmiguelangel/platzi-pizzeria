@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PizzaService {
@@ -20,6 +21,31 @@ public class PizzaService {
     public PizzaService(JdbcTemplate jdbcTemplate, PizzaRepository pizzaRepository) {
         this.jdbcTemplate = jdbcTemplate;
         this.pizzaRepository = pizzaRepository;
+    }
+
+    public List<PizzaEntity> getCheapestPizzas(double price) {
+        return this.pizzaRepository.findTop3ByAvailableTrueAndPriceLessThanEqualOrderByPriceAsc(price);
+    }
+
+    public PizzaEntity getByName(String name) {
+        return this.pizzaRepository.findFirstByAvailableTrueAndNameIgnoreCase(name).orElseThrow(() -> new RuntimeException("La pizza no existe"));
+    }
+
+    public List<PizzaEntity> getAvailable() {
+        return this.pizzaRepository.findAllByAvailableTrueOrderByPrice();
+    }
+
+    public void countVeganPizzas() {
+        int veganPizzas = this.pizzaRepository.countByVeganTrue();
+        System.out.println("Número de pizzas veganas: " + veganPizzas);
+    }
+
+    public List<PizzaEntity> getWith(String ingredient) {
+        return this.pizzaRepository.findAllByAvailableTrueAndDescriptionContainingIgnoreCase(ingredient);
+    }
+
+    public List<PizzaEntity> getWithout(String ingredient) {
+        return this.pizzaRepository.findAllByAvailableTrueAndDescriptionNotContainingIgnoreCase(ingredient);
     }
 
     public PizzaEntity get(int idPizza) {

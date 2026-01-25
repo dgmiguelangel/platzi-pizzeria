@@ -1,8 +1,13 @@
 package com.platzi.pizza.service;
 
 import com.platzi.pizza.persistence.entity.PizzaEntity;
+import com.platzi.pizza.persistence.repository.PizzaPagSortRepository;
 import com.platzi.pizza.persistence.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -16,10 +21,32 @@ public class PizzaService {
 
     private final PizzaRepository pizzaRepository;
 
+    private final PizzaPagSortRepository pizzaPagSortRepository;
+
     @Autowired
-    public PizzaService(JdbcTemplate jdbcTemplate, PizzaRepository pizzaRepository) {
+    public PizzaService(JdbcTemplate jdbcTemplate, PizzaRepository pizzaRepository, PizzaPagSortRepository pizzaPagSortRepository) {
         this.jdbcTemplate = jdbcTemplate;
         this.pizzaRepository = pizzaRepository;
+        this.pizzaPagSortRepository = pizzaPagSortRepository;
+    }
+
+    public Page<PizzaEntity> getAvailable(int page, int elements, String sortBy, String sortDirection) {
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
+        Pageable pageRequest = PageRequest.of(page, elements, sort);
+        return this.pizzaPagSortRepository.findByAvailableTrue(pageRequest);
+    }
+
+    public Page<PizzaEntity> getAvailable(int page, int elements, String sortBy) {
+        // Pageable pageRequest = PageRequest.of(page, elements, Sort.by("price").ascending().and(Sort.by("idPizza").descending()));
+        // Pageable pageRequest = PageRequest.of(page, elements, Sort.by(Sort.Direction.ASC, "price", "idPizza"));
+        // Pageable pageRequest = PageRequest.of(page, elements, Sort.by(Sort.Order.asc(sortBy)));
+        Pageable pageRequest = PageRequest.of(page, elements, Sort.by(sortBy));
+        return this.pizzaPagSortRepository.findByAvailableTrue(pageRequest);
+    }
+
+    public Page<PizzaEntity> getAll(int page, int elements) {
+        Pageable pageRequest = PageRequest.of(page, elements);
+        return this.pizzaPagSortRepository.findAll(pageRequest);
     }
 
     public List<PizzaEntity> getCheapestPizzas(double price) {

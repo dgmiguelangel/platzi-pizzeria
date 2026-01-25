@@ -3,6 +3,7 @@ package com.platzi.pizza.web.controller;
 import com.platzi.pizza.persistence.entity.PizzaEntity;
 import com.platzi.pizza.service.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,9 +20,29 @@ public class PizzaController {
         this.pizzaService = pizzaService;
     }
 
+    @GetMapping("/available/pages/sort/direction")
+    public ResponseEntity<Page<PizzaEntity>> getAll(
+            @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "8") int elements,
+            @RequestParam(defaultValue = "price") String sortBy, @RequestParam(defaultValue = "asc") String sortDirection) {
+        return ResponseEntity.ok(this.pizzaService.getAvailable(page, elements, sortBy, sortDirection));
+    }
+
+    @GetMapping("/available/pages/sort")
+    public ResponseEntity<Page<PizzaEntity>> getAll(
+            @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "8") int elements,
+            @RequestParam(defaultValue = "price") String sortBy) {
+        return ResponseEntity.ok(this.pizzaService.getAvailable(page, elements, sortBy));
+    }
+
+    @GetMapping("/pages")
+    public ResponseEntity<Page<PizzaEntity>> getAll(
+            @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "8") int elements) {
+        return ResponseEntity.ok(this.pizzaService.getAll(page, elements));
+    }
+
     @GetMapping("/cheapest/{price}")
-    public List<PizzaEntity> getCheapestPizzas(@PathVariable Double price) {
-        return this.pizzaService.getCheapestPizzas(price);
+    public ResponseEntity<List<PizzaEntity>> getCheapestPizzas(@PathVariable Double price) {
+        return ResponseEntity.ok(this.pizzaService.getCheapestPizzas(price));
     }
 
     @GetMapping("/name/{name}")

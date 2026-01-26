@@ -22,6 +22,10 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
+    public List<OrderEntity> getCustomerOrders(String idCustomer) {
+        return this.orderRepository.findCustomerOrders(idCustomer);
+    }
+
     public List<OrderEntity> getTodayOrders() {
         LocalDateTime today = LocalDate.now().atTime(0, 0);
         return this.orderRepository.findAllByDateAfter(today);

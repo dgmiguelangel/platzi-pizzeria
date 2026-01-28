@@ -1,25 +1,29 @@
 package com.platzi.pizza.persistence.entity;
 
-import com.platzi.pizza.persistence.audit.AuditableEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.envers.AuditTable;
+import org.hibernate.envers.Audited;
 
 import java.io.Serializable;
 
 //@EntityListeners(AuditingEntityListener.class)
+@Audited
+@AuditTable(value = "pizza_audit")
 @Entity
 @Table(name = "pizza")
 @Getter
 @Setter
 @NoArgsConstructor
 @ToString
-public class PizzaEntity extends AuditableEntity implements Serializable {
+public class PizzaEntity implements Serializable {
+    //public class PizzaEntity extends AuditableEntity implements Serializable {
 
-    @Id
     @ToString.Exclude
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_pizza", nullable = false)
     private Integer idPizza;

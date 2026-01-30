@@ -1,6 +1,7 @@
 package com.platzi.pizza.persistence.revision;
 
 import org.hibernate.envers.RevisionListener;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 public class RevisionPizzaListener implements RevisionListener {
 
@@ -10,16 +11,11 @@ public class RevisionPizzaListener implements RevisionListener {
     }
 
     private String getThreadAccountUserName() {
-        if(System.getProperty("user.name") != null) {
-            return System.getProperty("user.name");
+        if(SecurityContextHolder.getContext().getAuthentication() != null) {
+            return SecurityContextHolder.getContext().getAuthentication().getName();
         }
-        return "NOT_FOUND";
 
-        /*
-        if (AccountThreadContext.getAccount() != null){
-            return AccountThreadContext.getAccount().getCode();
-        }
-        */
+        return "NOT_FOUND";
     }
 
 }

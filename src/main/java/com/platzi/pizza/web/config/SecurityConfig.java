@@ -33,6 +33,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) {
         http
             .csrf(AbstractHttpConfigurer::disable)
+            //.cors(Customizer.withDefaults())
             .authorizeHttpRequests(customizeRequests -> {
                     customizeRequests
                             .anyRequest()

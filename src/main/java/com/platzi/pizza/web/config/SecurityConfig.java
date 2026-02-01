@@ -76,7 +76,7 @@ public class SecurityConfig {
         return http.build();
     }
 
-    @Bean
+    //@Bean
     public UserDetailsService memoryUsers() {
         UserDetails admin = User.builder()
                 .username("admin")

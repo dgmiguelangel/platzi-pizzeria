@@ -4,6 +4,7 @@ import com.platzi.pizza.persistence.entity.OrderEntity;
 import com.platzi.pizza.persistence.projection.OrderSummary;
 import com.platzi.pizza.persistence.repository.OrderRepository;
 import com.platzi.pizza.service.dto.RandomOrderDTO;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +30,8 @@ public class OrderService {
         return this.orderRepository.findSummary(orderId);
     }
 
+    // Method secured to be accessed only by users with ROLE_ADMIN
+    @Secured({"ROLE_ADMIN"})
     public List<OrderEntity> getCustomerOrders(String idCustomer) {
         return this.orderRepository.findCustomerOrders(idCustomer);
     }

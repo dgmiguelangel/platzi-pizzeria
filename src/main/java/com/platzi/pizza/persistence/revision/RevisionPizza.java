@@ -10,8 +10,8 @@ import org.hibernate.envers.RevisionTimestamp;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "pizza_info")
+//@Entity
+//@Table(name = "pizza_info")
 @RevisionEntity(RevisionPizzaListener.class)
 @Getter
 @Setter
@@ -27,5 +27,4 @@ public class RevisionPizza implements Serializable {
 
     @Column(name = "user_name")
     private String userName;
-
 }
